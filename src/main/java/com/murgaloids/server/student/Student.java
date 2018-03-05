@@ -23,26 +23,26 @@ import javax.persistence.Id;
 public class Student {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "int(11)")
     private Long id;
 
     @NonNull
-    @Column(name = "email")
+    @Column(name = "email", columnDefinition = "varchar(254)")
     private String email;
 
     @NonNull
-    @Column(name = "first_name")
+    @Column(name = "first_name", columnDefinition = "varchar(25)")
     private String firstName;
 
     @NonNull
-    @Column(name = "last_name")
+    @Column(name = "last_name", columnDefinition = "varchar(25)")
     private String lastName;
 
     @NonNull
-    @Column(name="password")
+    @Column(name="password", columnDefinition = "varchar(100)")
     private String password;
 
     @NonNull
-    @Column(name = "salt")
+    @Column(name = "salt", columnDefinition = "varchar(100)")
     private String salt;
 }
