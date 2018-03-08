@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * This class is responsbiel for authorizing users. It extends the BasicAuthenticationFilter class so that
+ * This class is responsible for authorizing users. It extends the BasicAuthenticationFilter class so that
  * it can override the method, doFilterInternal, to fit our needs when we add it to the filter class.
  */
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
