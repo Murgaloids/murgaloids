@@ -1,4 +1,4 @@
-package com.murgaloids.server.report;
+package com.murgaloids.server.bookmark;
 
 import lombok.NonNull;
 
@@ -12,24 +12,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
-@RequestMapping(path="/reports")
-public class ReportController {
+@RequestMapping(path="/bookmarks")
+public class BookmarkController {
     @Autowired
-    private ReportRepository reportRepository;
+    private BookmarkRepository bookmarkRepository;
 
     @PostMapping("/add")
-    public void addReport(@NonNull @RequestBody Report report) {
-        if (!reportRepository.existsById(report.getId()))
-            reportRepository.save(report);
+    public void addBookmark(@NonNull @RequestBody Bookmark bookmark) {
+        if (!bookmarkRepository.existsById(bookmark.getId()))
+            bookmarkRepository.save(bookmark);
     }
 
     @GetMapping("/get")
-    public @ResponseBody Iterable<Report> getReports(@NonNull @RequestParam Long userId) {
-        return reportRepository.findByReporteeId(userId);
+    public @ResponseBody Iterable<Bookmark> getBookmarks(@NonNull @RequestParam Long userId) {
+        return bookmarkRepository.findByBuyerId(userId);
     }
 
     @GetMapping("/all")
-    public @ResponseBody Iterable<Report> getAllReports() {
-        return reportRepository.findAll();
+    public @ResponseBody Iterable<Bookmark> getAllBookmarks() {
+        return bookmarkRepository.findAll();
     }
 }

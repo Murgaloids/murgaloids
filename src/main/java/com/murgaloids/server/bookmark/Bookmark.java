@@ -1,4 +1,4 @@
-package com.murgaloids.server.report;
+package com.murgaloids.server.bookmark;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,28 +13,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Report is a class representation of a report.
+ * Bookmark is a class representation of a bookmark.
  */
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "reports")
-public class Report {
+@Table(name = "bookmarks")
+public class Bookmark {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "id", columnDefinition = "int(11)")
     private Long id;
 
     @NonNull
-    @Column(name = "reporter_id", columnDefinition = "int(11)")
-    private Long reporterId;
+    @Column(name = "buyer_id", columnDefinition = "int(11)")
+    private Long buyerId;
 
     @NonNull
-    @Column(name = "reportee_id", columnDefinition = "int(11)")
-    private Long reporteeId;
-
-    @NonNull
-    @Column(name = "description", columnDefinition = "varchar(254)")
-    private String description;
+    @Column(name = "item_id", columnDefinition = "int(11)")
+    private Long itemId;
 }
