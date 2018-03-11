@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,6 +46,11 @@ public class ItemController {
 
             itemRepository.save(item);
         }
+    }
+
+    @GetMapping("/get")
+    public @ResponseBody Iterable<Item> getItems(@NonNull @RequestParam Long userId) {
+        return itemRepository.findBySellerId(userId);
     }
 
     @GetMapping("/all")

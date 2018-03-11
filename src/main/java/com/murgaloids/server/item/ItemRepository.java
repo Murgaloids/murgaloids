@@ -1,5 +1,7 @@
 package com.murgaloids.server.item;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -12,4 +14,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface ItemRepository extends CrudRepository<Item, Long> {
     boolean existsById(Long Id);
     Item findById(Long id);
+    List<Item> findBySellerId(Long id);
 }
