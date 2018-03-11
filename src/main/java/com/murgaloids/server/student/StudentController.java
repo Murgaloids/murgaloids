@@ -25,7 +25,7 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
-    @PostMapping("/sign-up")
+    @PostMapping("/add")
     public void addStudent(@NonNull @RequestBody Student student, HttpServletResponse res) {
         if (!studentRepository.existsByEmail(student.getEmail())) {
             studentRepository.save(student);
@@ -34,7 +34,7 @@ public class StudentController {
     }
 
     @PostMapping("/get-challenge")
-    public Challenge getChallenge(@NonNull @RequestBody Student student) {
+    public @ResponseBody Challenge getChallenge(@NonNull @RequestBody Student student) {
         if (studentRepository.existsByEmail(student.getEmail())) {
             Student existingStudent = studentRepository.findByEmail(student.getEmail());
             return new Challenge(existingStudent.getSalt());
@@ -43,7 +43,7 @@ public class StudentController {
     }
 
     @PostMapping("/validate-tag")
-    public Student validateTag(@NonNull @RequestBody TagValidator theirTag, HttpServletResponse res) {
+    public @ResponseBody Student validateTag(@NonNull @RequestBody TagValidator theirTag, HttpServletResponse res) {
         if (studentRepository.existsByEmail(theirTag.getEmail())) {
             Student student = studentRepository.findByEmail(theirTag.getEmail());
             String password = student.getPassword();

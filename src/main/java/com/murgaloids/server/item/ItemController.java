@@ -18,13 +18,13 @@ public class ItemController {
     @Autowired
     private ItemRepository itemRepository;
 
-    @PostMapping("/add-item")
+    @PostMapping("/add")
     public void addItem(@NonNull @RequestBody Item item) {
         if (!itemRepository.existsById(item.getId()))
             itemRepository.save(item);
     }
 
-    @PostMapping("/update-item")
+    @PostMapping("/update")
     public void updateItem(@NonNull @RequestBody Item reqItem) {
         Item item = itemRepository.findById(reqItem.getId());
         if (item != null) {

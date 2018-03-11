@@ -10,6 +10,8 @@ import org.springframework.data.repository.CrudRepository;
  * persistence stores.
  */
 public interface StudentRepository extends CrudRepository<Student, Long> {
+    boolean existsById(Long id);
     boolean existsByEmail(String email);
+    Student findById(Long id);
     Student findByEmail(String email);
 }
