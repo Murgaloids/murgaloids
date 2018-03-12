@@ -54,4 +54,6 @@ public class Item {
     @Column(name = "is_item_sold", columnDefinition = "tinyint(1)")
     private Boolean itemSold;
 
+    @Column(name = "rating", columnDefinition = "int(11)")
+    private Long rating;
 }

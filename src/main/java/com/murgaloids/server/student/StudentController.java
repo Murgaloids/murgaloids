@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,6 +32,11 @@ public class StudentController {
             studentRepository.save(student);
             res.addHeader(SecurityUtils.HEADER_STRING, SecurityUtils.TOKEN_PREFIX + " " + SecurityUtils.generateToken(student.getEmail()));
         }
+    }
+
+    @GetMapping("/get")
+    public @ResponseBody Student getStudent(@NonNull @RequestParam Long id) {
+        return studentRepository.existsById(id) ? studentRepository.findById(id) : null;
     }
 
     @PostMapping("/get-challenge")

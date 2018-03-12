@@ -24,12 +24,12 @@ public class ReportController {
     }
 
     @GetMapping("/get")
-    public @ResponseBody Iterable<Report> getReports(@NonNull @RequestParam Long userId) {
-        return reportRepository.findByReporteeId(userId);
+    public @ResponseBody Report getReport(@NonNull @RequestParam Long id) {
+        return reportRepository.existsById(id) ? reportRepository.findById(id) : null;
     }
 
     @GetMapping("/all")
-    public @ResponseBody Iterable<Report> getAllReports() {
-        return reportRepository.findAll();
+    public @ResponseBody Iterable<Report> getReports(@NonNull @RequestParam Long userId) {
+        return reportRepository.findByReporteeId(userId);
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface ReportRepository extends CrudRepository<Report, Long> {
     boolean existsById(Long Id);
+    boolean existsByReporteeId(Long Id);
     Report findById(Long id);
     List<Report> findByReporteeId(Long id);
 }

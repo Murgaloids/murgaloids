@@ -22,7 +22,7 @@ public class SecurityUtils {
     public static final String SECRET = Secrets.SHHHHHH;
     public static final String TOKEN_PREFIX = "Murgaloids ";
     public static final String HEADER_STRING = "Authorization";
-    public static final String SIGN_UP_URL = "/students/sign-up";
+    public static final String SIGN_UP_URL = "/students/add";
     public static final String GET_CHALLENGE_URL = "/students/get-challenge";
     public static final String VALIDATE_TAG_URL = "/students/validate-tag";
 

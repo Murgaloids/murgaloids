@@ -49,12 +49,12 @@ public class ItemController {
     }
 
     @GetMapping("/get")
-    public @ResponseBody Iterable<Item> getItems(@NonNull @RequestParam Long userId) {
-        return itemRepository.findBySellerId(userId);
+    public @ResponseBody Item getItem(@NonNull @RequestParam Long id) {
+        return itemRepository.existsById(id) ? itemRepository.findById(id) : null;
     }
 
     @GetMapping("/all")
-    public @ResponseBody Iterable<Item> getAllItems() {
-        return itemRepository.findAll();
+    public @ResponseBody Iterable<Item> getItems(@NonNull @RequestParam Long userId) {
+        return itemRepository.findBySellerId(userId);
     }
 }

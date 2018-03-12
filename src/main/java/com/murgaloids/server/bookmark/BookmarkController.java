@@ -24,12 +24,12 @@ public class BookmarkController {
     }
 
     @GetMapping("/get")
-    public @ResponseBody Iterable<Bookmark> getBookmarks(@NonNull @RequestParam Long userId) {
-        return bookmarkRepository.findByBuyerId(userId);
+    public @ResponseBody Bookmark getBookmark(@NonNull @RequestParam Long id) {
+        return bookmarkRepository.existsById(id) ? bookmarkRepository.findById(id) : null;
     }
 
     @GetMapping("/all")
-    public @ResponseBody Iterable<Bookmark> getAllBookmarks() {
-        return bookmarkRepository.findAll();
+    public @ResponseBody Iterable<Bookmark> getBookmarks(@NonNull @RequestParam Long userId) {
+        return bookmarkRepository.findByBuyerId(userId);
     }
 }

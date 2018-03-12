@@ -45,4 +45,7 @@ public class Student {
     @NonNull
     @Column(name = "salt", columnDefinition = "varchar(100)")
     private String salt;
+
+    @Column(name = "description", columnDefinition = "varchar(254)")
+    private String description;
 }
