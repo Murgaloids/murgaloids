@@ -49,9 +49,9 @@ public class ItemController {
     }
 
     @PostMapping("/delete")
-    public void deleteItem(@NotNull @RequestBody Item item) {
-        if(!itemRepository.existsById(item.getId()))
-            itemRepository.delete(item);
+    public void deleteItem(@NotNull @RequestParam Long id) {
+        if(itemRepository.existsById(id)
+            itemRepository.delete(itemRepository.findById(id));
     }
 
     @GetMapping("/get")
