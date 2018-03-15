@@ -32,4 +32,10 @@ public class BookmarkController {
     public @ResponseBody Iterable<Bookmark> getBookmarks(@NonNull @RequestParam Long userId) {
         return bookmarkRepository.findByBuyerId(userId);
     }
+
+    @PostMapping("/delete")
+    public void deleteBookmark(@NonNull @RequestParam Long id) {
+        if (bookmarkRepository.existsById(id))
+            bookmarkRepository.delete(bookmarkRepository.findById(id));
+    }
 }
