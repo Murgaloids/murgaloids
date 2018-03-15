@@ -20,9 +20,13 @@ public class ItemController {
     private ItemRepository itemRepository;
 
     @PostMapping("/add")
-    public void addItem(@NonNull @RequestBody Item item) {
+    public long addItem(@NonNull @RequestBody Item item) {
         if (!itemRepository.existsById(item.getId()))
+        {
             itemRepository.save(item);
+            return item.getId();
+        }
+        return -1;
     }
 
     @PostMapping("/update")
