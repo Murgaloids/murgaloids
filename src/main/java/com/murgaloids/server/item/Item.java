@@ -11,6 +11,10 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import java.util.Date;
 
 /**
  * Item is a class representation of an item.
@@ -56,4 +60,10 @@ public class Item {
 
     @Column(name = "rating", columnDefinition = "int(11)")
     private Long rating;
+
+    @NonNull
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "date_added", columnDefinition = "timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateAdded;
 }
