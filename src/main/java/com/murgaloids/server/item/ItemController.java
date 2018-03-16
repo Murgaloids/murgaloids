@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.data.repository.query.Param;
+
+
 @RestController
 @RequestMapping(path="/items")
 public class ItemController {
@@ -66,4 +69,11 @@ public class ItemController {
     public @ResponseBody Iterable<Item> getItems(@NonNull @RequestParam Long userId) {
         return itemRepository.findBySellerId(userId);
     }
+
+    @GetMapping("/recent")
+    public @ResponseBody Iterable<Item> getRecentItems(int numOfResults) {
+        return itemRepository.findRecentItems(numOfResults);
+    }
+
+
 }
