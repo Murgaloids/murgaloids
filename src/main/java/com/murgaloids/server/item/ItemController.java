@@ -11,21 +11,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import org.springframework.http.HttpStatus;
 import javax.servlet.http.HttpServletResponse;
+
+import com.murgaloids.server.JSONObject;
+import com.murgaloids.server.student.StudentRepository;
+import com.murgaloids.server.itemCondition.ItemConditionRepository;
 
 @RestController
 @RequestMapping(path="/items")
 public class ItemController {
-    @Autowired
-    private ItemRepository itemRepository;
+    @Autowired private ItemRepository itemRepository;
+    @Autowired private StudentRepository studentRepository;
+    @Autowired private ItemConditionRepository itemConditionRepository;
 
     @PostMapping("/add")
-    public long addItem(@NonNull @RequestBody Item item) {
-        if (!itemRepository.existsById(item.getId())) {
+    public JSONObject addItem(@NonNull @RequestBody Item item, HttpServletResponse response) {
+        if (!itemRepository.existsById(item.getId()) && studentRepository.existsById(item.getSellerId()) &&
+            itemConditionRepository.existsById(item.getConditionTypeId())) {
             itemRepository.save(item);
-            return item.getId();
+            response.setStatus(HttpServletResponse.SC_OK);
+            return new JSONObject<Long>(item.getId(), HttpStatus.OK);
         }
-        return -1;
+
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        return new JSONObject<Long>(Long.valueOf(-1), HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/update")

@@ -19,7 +19,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "bookmarks")
+@Table(name = "bookmark")
 public class Bookmark {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
