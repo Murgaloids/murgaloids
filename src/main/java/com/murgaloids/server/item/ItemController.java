@@ -27,15 +27,20 @@ public class ItemController {
 
     @PostMapping("/add")
     public JSONObject addItem(@NonNull @RequestBody Item item, HttpServletResponse response) {
-        if (!itemRepository.existsById(item.getId()) && studentRepository.existsById(item.getSellerId()) &&
-            itemConditionRepository.existsById(item.getConditionTypeId())) {
+        Long itemId = item.getId();
+        Long sellerId = item.getSellerId();
+        Long conditionTypeId = item.getConditionTypeId();
+
+        if (!itemRepository.existsById(itemId) &&
+            studentRepository.existsById(sellerId) &&
+            itemConditionRepository.existsById(conditionTypeId)) {
             itemRepository.save(item);
             response.setStatus(HttpServletResponse.SC_OK);
-            return new JSONObject<Long>(item.getId(), HttpStatus.OK);
+            return new JSONObject<>(item.getId(), HttpStatus.OK);
         }
 
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        return new JSONObject<Long>(Long.valueOf(-1), HttpStatus.BAD_REQUEST);
+        return new JSONObject<>(Long.valueOf(-1), HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/update")
@@ -68,8 +73,14 @@ public class ItemController {
     }
 
     @GetMapping("/get")
-    public @ResponseBody Item getItem(@NonNull @RequestParam Long id) {
-        return itemRepository.existsById(id) ? itemRepository.findById(id) : null;
+    public @ResponseBody JSONObject getItem(@NonNull @RequestParam Long id, HttpServletResponse response) {
+        if (itemRepository.existsById(id)) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return new JSONObject<>(itemRepository.findById(id), HttpStatus.OK);
+        }
+
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        return new JSONObject<>(null, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/all")

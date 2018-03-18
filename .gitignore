@@ -4,6 +4,7 @@
 /src/main/resources/application.properties
 /src/main/java/com/murgaloids/server/security/Secrets.java
 /out/
+/classes/
 
 ### STS ###
 .apt_generated
