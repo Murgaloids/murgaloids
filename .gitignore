@@ -3,6 +3,7 @@
 !gradle/wrapper/gradle-wrapper.jar
 /src/main/resources/application.properties
 /src/main/java/com/murgaloids/server/security/Secrets.java
+/out/
 
 ### STS ###
 .apt_generated
