@@ -19,4 +19,7 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
 
     @Query(value = "SELECT * FROM items r WHERE r.is_item_sold = 0 ORDER BY r.date_added DESC limit ?1", nativeQuery = true)
     List<Item> findRecentItems(int numOfResult);
+
+    @Query(value = "SELECT * FROM items WHERE LOCATE(?1, item_name) > 0", nativeQuery = true)
+    List<Item> findByName(String name);
 }

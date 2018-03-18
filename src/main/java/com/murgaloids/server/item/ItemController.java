@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping(path="/items")
@@ -70,5 +71,11 @@ public class ItemController {
     @GetMapping("/recent")
     public @ResponseBody Iterable<Item> getRecentItems(int numOfResults) {
         return itemRepository.findRecentItems(numOfResults);
+    }
+
+    @GetMapping("/search")
+    public @ResponseBody
+    List<Item> search(@NonNull @RequestParam(value = "query") String query) {
+        return itemRepository.findByName(query);
     }
 }
