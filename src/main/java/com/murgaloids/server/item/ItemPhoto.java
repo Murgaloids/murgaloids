@@ -13,7 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Item is a class representation of an item.
+ * ItemPhoto is a class representation of an Item and its associated Photo.
  */
 @Data
 @NoArgsConstructor
