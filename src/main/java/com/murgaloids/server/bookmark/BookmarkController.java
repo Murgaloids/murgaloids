@@ -1,5 +1,6 @@
 package com.murgaloids.server.bookmark;
 
+import com.murgaloids.server.JsonWrapper;
 import lombok.NonNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,14 @@ public class BookmarkController {
     }
 
     @GetMapping("/get")
-    public @ResponseBody Bookmark getBookmark(@NonNull @RequestParam Long id) {
-        return bookmarkRepository.existsById(id) ? bookmarkRepository.findById(id) : null;
+    public @ResponseBody
+    JsonWrapper<Bookmark> getBookmark(@NonNull @RequestParam Long id) {
+        return new JsonWrapper<>(bookmarkRepository.existsById(id) ? bookmarkRepository.findById(id) : null);
     }
 
     @GetMapping("/all")
-    public @ResponseBody Iterable<Bookmark> getBookmarks(@NonNull @RequestParam Long userId) {
-        return bookmarkRepository.findByBuyerId(userId);
+    public @ResponseBody JsonWrapper<Iterable<Bookmark>> getBookmarks(@NonNull @RequestParam Long userId) {
+        return new JsonWrapper<>(bookmarkRepository.findByBuyerId(userId));
     }
 
     @PostMapping("/delete")

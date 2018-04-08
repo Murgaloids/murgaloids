@@ -1,5 +1,6 @@
 package com.murgaloids.server.student;
 
+import com.murgaloids.server.JsonWrapper;
 import lombok.NonNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,8 @@ public class StudentController {
     }
 
     @GetMapping("/get")
-    public @ResponseBody Student getStudent(@NonNull @RequestParam Long id) {
-        return studentRepository.existsById(id) ? studentRepository.findById(id) : null;
+    public @ResponseBody JsonWrapper<Student> getStudent(@NonNull @RequestParam Long id) {
+        return new JsonWrapper<>(studentRepository.existsById(id) ? studentRepository.findById(id) : null);
     }
 
     @PostMapping("/get-challenge")
@@ -49,7 +50,7 @@ public class StudentController {
     }
 
     @PostMapping("/validate-tag")
-    public @ResponseBody Student validateTag(@NonNull @RequestBody TagValidator theirTag, HttpServletResponse res) {
+    public @ResponseBody JsonWrapper<Student> validateTag(@NonNull @RequestBody TagValidator theirTag, HttpServletResponse res) {
         if (studentRepository.existsByEmail(theirTag.getEmail())) {
             Student student = studentRepository.findByEmail(theirTag.getEmail());
             String password = student.getPassword();
@@ -57,14 +58,14 @@ public class StudentController {
 
             if (ourTag != null && theirTag.getTag().equals(ourTag)) {
                 res.addHeader(SecurityUtils.HEADER_STRING, SecurityUtils.TOKEN_PREFIX + " " + SecurityUtils.generateToken(student.getEmail()));
-                return student;
+                return new JsonWrapper<>(student);
             }
         }
-        return null;
+        return new JsonWrapper<>(null);
     }
 
     @GetMapping("/all")
-    public @ResponseBody Iterable<Student> getAllStudents() {
-        return studentRepository.findAll();
+    public @ResponseBody JsonWrapper<Iterable<Student>> getAllStudents() {
+        return new JsonWrapper<>(studentRepository.findAll());
     }
 }

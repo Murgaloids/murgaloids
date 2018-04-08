@@ -1,5 +1,6 @@
 package com.murgaloids.server.item;
 
+import com.murgaloids.server.JsonWrapper;
 import lombok.NonNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,23 +60,24 @@ public class ItemController {
     }
 
     @GetMapping("/get")
-    public @ResponseBody Item getItem(@NonNull @RequestParam Long id) {
-        return itemRepository.existsById(id) ? itemRepository.findById(id) : null;
+    public @ResponseBody
+    JsonWrapper<Item> getItem(@NonNull @RequestParam Long id) {
+        return new JsonWrapper<>(itemRepository.existsById(id) ? itemRepository.findById(id) : null);
     }
 
     @GetMapping("/all")
-    public @ResponseBody Iterable<Item> getItems(@NonNull @RequestParam Long userId) {
-        return itemRepository.findBySellerId(userId);
+    public @ResponseBody JsonWrapper<Iterable<Item>> getItems(@NonNull @RequestParam Long userId) {
+        return new JsonWrapper<>(itemRepository.findBySellerId(userId));
     }
 
     @GetMapping("/recent")
-    public @ResponseBody Iterable<Item> getRecentItems(int numOfResults) {
-        return itemRepository.findRecentItems(numOfResults);
+    public @ResponseBody JsonWrapper<Iterable<Item>> getRecentItems(int numOfResults) {
+        return new JsonWrapper<>(itemRepository.findRecentItems(numOfResults));
     }
 
     @GetMapping("/search")
     public @ResponseBody
-    List<Item> search(@NonNull @RequestParam(value = "query") String query) {
-        return itemRepository.findByName(query);
+    JsonWrapper<Iterable<Item>> search(@NonNull @RequestParam(value = "query") String query) {
+        return new JsonWrapper<>(itemRepository.findByName(query));
     }
 }
