@@ -16,5 +16,6 @@ public class Item_ {
     public static volatile SingularAttribute<Item, Boolean> itemSold;
     public static volatile SingularAttribute<Item, Boolean> itemRated;
     public static volatile SingularAttribute<Item, Long> rating;
+    public static volatile SingularAttribute<Item, String> imageSource;
     public static volatile SingularAttribute<Item, Date> dateAdded;
 }
