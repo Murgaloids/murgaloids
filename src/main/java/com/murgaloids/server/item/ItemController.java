@@ -73,7 +73,7 @@ public class ItemController {
         return new JsonWrapper<>(itemRepository.findRecentItems(numOfResults));
     }
 
-    @GetMapping("/searchTest")
+    @GetMapping("/search")
     public @ResponseBody
     JsonWrapper<Iterable<Item>> search(
             @NonNull @RequestParam(value = "query") String query,
