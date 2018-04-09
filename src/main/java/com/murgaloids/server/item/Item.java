@@ -23,7 +23,7 @@ import java.util.Date;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "items")
+@Table(name = "item")
 public class Item {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

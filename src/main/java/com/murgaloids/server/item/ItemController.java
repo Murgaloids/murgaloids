@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping(path="/items")
 public class ItemController {
-    @Autowired
-    private ItemRepository itemRepository;
+    @Autowired private ItemRepository itemRepository;
 
     @PostMapping("/add")
     public long addItem(@NonNull @RequestBody Item item) {
