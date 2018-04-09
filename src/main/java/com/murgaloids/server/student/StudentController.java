@@ -28,11 +28,13 @@ public class StudentController {
     private StudentRepository studentRepository;
 
     @PostMapping("/add")
-    public void addStudent(@NonNull @RequestBody Student student, HttpServletResponse res) {
+    public JsonWrapper<Student> addStudent(@NonNull @RequestBody Student student, HttpServletResponse res) {
         if (!studentRepository.existsByEmail(student.getEmail())) {
             studentRepository.save(student);
             res.addHeader(SecurityUtils.HEADER_STRING, SecurityUtils.TOKEN_PREFIX + " " + SecurityUtils.generateToken(student.getEmail()));
+            return new JsonWrapper<>(student);
         }
+        return null;
     }
 
     @GetMapping("/get")
