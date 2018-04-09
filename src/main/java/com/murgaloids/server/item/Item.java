@@ -65,6 +65,9 @@ public class Item {
     @Column(name = "rating", columnDefinition = "int(11)")
     private Long rating;
 
+    @Column(name = "image_source", columnDefinition = "varchar(254)")
+    private String imageSource;
+
     @NonNull
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "date_added", columnDefinition = "timestamp")

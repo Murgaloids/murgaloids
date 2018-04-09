@@ -1,8 +1,10 @@
 package com.murgaloids.server.item;
 
+import com.murgaloids.server.JsonWrapper;
 import lombok.NonNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,23 +75,62 @@ public class ItemController {
     }
 
     @GetMapping("/get")
-    public @ResponseBody JSONObject getItem(@NonNull @RequestParam Long id, HttpServletResponse response) {
-        if (itemRepository.existsById(id)) {
-            response.setStatus(HttpServletResponse.SC_OK);
-            return new JSONObject<>(itemRepository.findById(id), HttpStatus.OK);
-        }
-
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        return new JSONObject<>(null, HttpStatus.BAD_REQUEST);
+    public @ResponseBody
+    JsonWrapper<Item> getItem(@NonNull @RequestParam Long id) {
+        return new JsonWrapper<>(itemRepository.existsById(id) ? itemRepository.findById(id) : null);
     }
 
     @GetMapping("/all")
-    public @ResponseBody Iterable<Item> getItems(@NonNull @RequestParam Long userId) {
-        return itemRepository.findBySellerId(userId);
+    public @ResponseBody JsonWrapper<Iterable<Item>> getItems(@NonNull @RequestParam Long userId) {
+        return new JsonWrapper<>(itemRepository.findBySellerId(userId));
     }
 
     @GetMapping("/recent")
-    public @ResponseBody Iterable<Item> getRecentItems(int numOfResults) {
-        return itemRepository.findRecentItems(numOfResults);
+    public @ResponseBody JsonWrapper<Iterable<Item>> getRecentItems(int numOfResults) {
+        return new JsonWrapper<>(itemRepository.findRecentItems(numOfResults));
+    }
+
+    @GetMapping("/search")
+    public @ResponseBody
+    JsonWrapper<Iterable<Item>> search(
+            @NonNull @RequestParam(value = "query") String query,
+            @RequestParam(value = "price", required = false) Double price,
+            @RequestParam(value = "priceOption", required = false) String priceOption,
+            @RequestParam(value = "sellerId", required = false) Long sellerId,
+            @RequestParam(value = "description", required = false) String description
+    ) {
+        if (priceOption != null && priceOption.equals("gte")) {
+            return new JsonWrapper<>(
+                    itemRepository.findAll(
+                            Specifications
+                                    .where(ItemSpecifications.withItemName(query))
+                                    .and(ItemSpecifications.withPriceGreaterThanOrEqualTo(price))
+                                    .and(ItemSpecifications.withSellerId(sellerId))
+                                    .and(ItemSpecifications.withDescription(description))
+                    )
+            );
+        }
+        else if (priceOption != null && priceOption.equals("lte")) {
+            return new JsonWrapper<>(
+                    itemRepository.findAll(
+                            Specifications
+                                    .where(ItemSpecifications.withItemName(query))
+                                    .and(ItemSpecifications.withPriceLessThanOrEqualTo(price))
+                                    .and(ItemSpecifications.withSellerId(sellerId))
+                                    .and(ItemSpecifications.withDescription(description))
+                    )
+            );
+        }
+        else {
+            return new JsonWrapper<>(
+                    itemRepository.findAll(
+                            Specifications
+                                    .where(ItemSpecifications.withItemName(query))
+                                    .and(ItemSpecifications.withPriceEqualTo(price))
+                                    .and(ItemSpecifications.withSellerId(sellerId))
+                                    .and(ItemSpecifications.withDescription(description))
+                    )
+            );
+        }
     }
 }

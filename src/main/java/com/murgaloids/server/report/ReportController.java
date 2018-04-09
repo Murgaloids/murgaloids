@@ -1,5 +1,6 @@
 package com.murgaloids.server.report;
 
+import com.murgaloids.server.JsonWrapper;
 import lombok.NonNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,13 @@ public class ReportController {
     }
 
     @GetMapping("/get")
-    public @ResponseBody Report getReport(@NonNull @RequestParam Long id) {
-        return reportRepository.existsById(id) ? reportRepository.findById(id) : null;
+    public @ResponseBody
+    JsonWrapper<Report> getReport(@NonNull @RequestParam Long id) {
+        return new JsonWrapper<>(reportRepository.existsById(id) ? reportRepository.findById(id) : null);
     }
 
     @GetMapping("/all")
-    public @ResponseBody Iterable<Report> getReports(@NonNull @RequestParam Long userId) {
-        return reportRepository.findByReporteeId(userId);
+    public @ResponseBody JsonWrapper<Iterable<Report>> getReports(@NonNull @RequestParam Long userId) {
+        return new JsonWrapper<>(reportRepository.findByReporteeId(userId));
     }
 }
