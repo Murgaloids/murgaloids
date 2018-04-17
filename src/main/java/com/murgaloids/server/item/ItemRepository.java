@@ -18,18 +18,18 @@ public interface ItemRepository extends CrudRepository<Item, Long>, JpaSpecifica
     Item findById(Long id);
     List<Item> findBySellerId(Long id);
 
-    @Query(value = "SELECT * FROM items r WHERE r.is_item_sold = 0 ORDER BY r.date_added DESC limit ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM item r WHERE r.is_item_sold = 0 ORDER BY r.date_added DESC limit ?1", nativeQuery = true)
     List<Item> findRecentItems(int numOfResult);
 
-    @Query(value = "SELECT * FROM items WHERE LOCATE(?1, item_name) > 0", nativeQuery = true)
+    @Query(value = "SELECT * FROM item WHERE LOCATE(?1, item_name) > 0", nativeQuery = true)
     List<Item> findByName(String name);
 
-    @Query(value = "SELECT * FROM items WHERE price >= ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM item WHERE price >= ?1", nativeQuery = true)
     List<Item> findByPriceGreaterThanOrEqual(double price);
 
-    @Query(value = "SELECT * FROM items WHERE price <= ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM item WHERE price <= ?1", nativeQuery = true)
     List<Item> findByPriceLessThanOrEqual(double price);
 
-    @Query(value = "SELECT * FROM items WHERE LOCATE(?1, description) > 0", nativeQuery = true)
+    @Query(value = "SELECT * FROM item WHERE LOCATE(?1, description) > 0", nativeQuery = true)
     List<Item> findByDescription(String description);
 }
