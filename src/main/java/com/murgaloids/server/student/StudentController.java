@@ -37,6 +37,30 @@ public class StudentController {
         return null;
     }
 
+    @PostMapping("/update")
+    public JsonWrapper<Student> updateStudent(@NonNull @RequestBody Student reqStudent) {
+        if (studentRepository.existsByEmail(reqStudent.getEmail())) {
+            Student student = studentRepository.findByEmail(reqStudent.getEmail());
+
+            if ((student.getFirstName() == null) ||
+                (reqStudent.getFirstName() != null) && !student.getFirstName().equals(reqStudent.getFirstName()))
+                student.setFirstName(reqStudent.getFirstName());
+            if ((student.getLastName() == null) ||
+                (reqStudent.getLastName() != null) && !student.getLastName().equals(reqStudent.getLastName()))
+                student.setLastName(reqStudent.getLastName());
+            if ((student.getDescription() == null) ||
+                (reqStudent.getDescription() != null) && !student.getDescription().equals(reqStudent.getDescription()))
+                student.setDescription(reqStudent.getDescription());
+            if ((student.getImageSource() == null) ||
+                (reqStudent.getImageSource() != null) && !student.getImageSource().equals(reqStudent.getImageSource()))
+                student.setImageSource(reqStudent.getImageSource());
+
+            studentRepository.save(student);
+            return new JsonWrapper<>(student);
+        }
+        return null;
+    }
+
     @GetMapping("/get")
     public @ResponseBody JsonWrapper<Student> getStudent(@NonNull @RequestParam Long id) {
         return new JsonWrapper<>(studentRepository.existsById(id) ? studentRepository.findById(id) : null);
