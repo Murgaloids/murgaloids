@@ -28,26 +28,35 @@ public class ItemController {
     }
 
     @PostMapping("/update")
-    public void updateItem(@NonNull @RequestBody Item reqItem) {
+    public JsonWrapper<Item> updateItem(@NonNull @RequestBody Item reqItem) {
         Item item = itemRepository.findById(reqItem.getId());
         if (item != null) {
-            if (item.getSellerId() != reqItem.getSellerId())
-                item.setSellerId(reqItem.getSellerId());
-            if (item.getConditionTypeId() != reqItem.getConditionTypeId())
+            if ((item.getConditionTypeId() == null) || (reqItem.getConditionTypeId() != null) &&
+                (item.getConditionTypeId() != reqItem.getConditionTypeId()))
                 item.setConditionTypeId(reqItem.getConditionTypeId());
-            if (item.getCategoryTypeId() != reqItem.getCategoryTypeId())
+            if ((item.getCategoryTypeId() == null) || (reqItem.getCategoryTypeId() != null) &&
+                (item.getCategoryTypeId() != reqItem.getCategoryTypeId()))
                 item.setCategoryTypeId(reqItem.getCategoryTypeId());
-            if (!item.getItemName().equals(reqItem.getItemName()))
+            if ((item.getItemName() == null) || (reqItem.getItemName() != null) &&
+                (!item.getItemName().equals(reqItem.getItemName())))
                 item.setItemName(reqItem.getItemName());
-            if (!item.getDescription().equals(reqItem.getDescription()))
+            if ((item.getDescription() == null) || (reqItem.getDescription() != null) &&
+                (!item.getDescription().equals(reqItem.getDescription())))
                 item.setDescription(reqItem.getDescription());
-            if (item.getPrice() != reqItem.getPrice())
+            if ((item.getPrice() == null) || (reqItem.getPrice() != null) &&
+                (item.getPrice() != reqItem.getPrice()))
                 item.setPrice(reqItem.getPrice());
-            if (item.getItemSold() != reqItem.getItemSold())
+            if ((item.getItemSold() == null) || (reqItem.getItemSold() != null) &&
+                (item.getItemSold() != reqItem.getItemSold()))
                 item.setItemSold(reqItem.getItemSold());
+            if ((item.getImageSource() == null) || (reqItem.getImageSource() != null) &&
+                (item.getImageSource() != reqItem.getImageSource()))
+                item.setImageSource(reqItem.getImageSource());
 
             itemRepository.save(item);
+            return new JsonWrapper<>(item);
         }
+        return null;
     }
 
     @PostMapping("/delete")
