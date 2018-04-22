@@ -60,7 +60,7 @@ public class ItemController {
     }
 
     @PostMapping("/delete")
-    public void deleteItem(@NonNull @RequestParam Long id) {
+    public void deleteItem(@NonNull @RequestBody Long id) {
         if(itemRepository.existsById(id))
             itemRepository.delete(itemRepository.findById(id));
     }
