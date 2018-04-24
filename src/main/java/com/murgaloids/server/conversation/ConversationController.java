@@ -28,4 +28,9 @@ public class ConversationController {
 
     return null;
   }
+
+  @GetMapping("/exists")
+  public JsonWrapper<Boolean> doesConversationExists(@RequestParam String id) {
+    return new JsonWrapper<>(conversationRepository.existsById(id));
+  }
 }
