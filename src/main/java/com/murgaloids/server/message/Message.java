@@ -15,6 +15,10 @@ import java.util.Date;
 @Table(name = "message")
 public class Message {
   @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
+  @Column(name = "id", columnDefinition = "int(11)")
+  private Long id;
+
   @Column(name="conversation_id", columnDefinition="varchar(255)")
   private String conversationId;
 
@@ -31,11 +35,20 @@ public class Message {
 
   protected Message() {}
 
-  public Message(String conversationId, Long senderId, String message, Date messageDate) {
+  public Message(Long id, String conversationId, Long senderId, String message, Date messageDate) {
+    this.id = id;
     this.conversationId = conversationId;
     this.senderId = senderId;
     this.message = message;
     this.messageDate = messageDate;
+  }
+
+  public Long getId() {
+      return this.id;
+  }
+
+  public void setId(Long id) {
+      this.id = id;
   }
 
   public String getConversationId() {

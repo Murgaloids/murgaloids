@@ -1,5 +1,7 @@
 package com.murgaloids.server.conversation;
 
+import java.util.List;
+
 import com.murgaloids.server.JsonWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +34,10 @@ public class ConversationController {
   @GetMapping("/exists")
   public JsonWrapper<Boolean> doesConversationExists(@RequestParam String id) {
     return new JsonWrapper<>(conversationRepository.existsById(id));
+  }
+
+  @GetMapping("/get-conversations")
+  public JsonWrapper<List<Conversation>> getConversations(@RequestParam String id) {
+    return new JsonWrapper<>(conversationRepository.findByUserId(id));
   }
 }
