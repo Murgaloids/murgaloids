@@ -1,5 +1,7 @@
 package com.murgaloids.server.message;
 
+import java.util.List;
+
 import com.murgaloids.server.JsonWrapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,15 @@ public class MessageController {
     if (conversationRepository.existsById(message.getConversationId())) {
       messageRepository.save(message);
       return new JsonWrapper<>(message);
+    }
+
+    return null;
+  }
+
+  @GetMapping("get-messages")
+  public JsonWrapper<List<Message>> getMessages(@RequestParam String id) {
+    if (conversationRepository.existsById(id)) {
+      return new JsonWrapper<>(messageRepository.findByConversationId(id));
     }
 
     return null;
