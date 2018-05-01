@@ -25,6 +25,9 @@ public class SecurityUtils {
     public static final String SIGN_UP_URL = "/students/add";
     public static final String GET_CHALLENGE_URL = "/students/get-challenge";
     public static final String VALIDATE_TAG_URL = "/students/validate-tag";
+    public static final String SOCKET_URL = "/chat**";
+    public static final String SOCKET_URL_2 = "/chat/**";
+    public static final String SOCKET_INFO_URL = "/chat/info**";
 
     public static String generateToken(String email) {
         return Jwts.builder()
