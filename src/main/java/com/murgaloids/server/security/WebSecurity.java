@@ -2,10 +2,8 @@ package com.murgaloids.server.security;
 
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.http.HttpMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -18,12 +16,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  */
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-    private UserDetailsService userDetailsService;
-
-    public WebSecurity(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
     // Defines which resources are public and which are private. Also, configure support
     // for CORS.
     @Override

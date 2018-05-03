@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Temporal;
@@ -32,6 +33,9 @@ public class Message {
   @Column(name="message_date", columnDefinition="datetime")
   @Temporal(TemporalType.TIMESTAMP)
   private Date messageDate;
+
+  @Column(name="is_read", columnDefinition="tinyint(1)")
+  private Boolean isRead;
 
   protected Message() {}
 
@@ -81,5 +85,18 @@ public class Message {
 
   public void setMessageDate(Date date) {
     this.messageDate = date;
+  }
+
+  public Boolean getIsRead() {
+    return this.isRead;
+  }
+
+  public void setIsRead(Boolean isRead) {
+    this.isRead = isRead;
+  }
+
+  @PrePersist
+  public void prePersist() {
+    this.messageDate = new Date();
   }
 }

@@ -11,17 +11,17 @@ import javax.persistence.Id;
  * Bookmark is a class representation of a bookmark.
  */
 @Entity
-@Table(name = "bookmark")
+@Table(name="bookmark")
 public class Bookmark {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "id", columnDefinition = "int(11)")
+    @Column(name="id", columnDefinition="int(11)")
     private Long id;
 
-    @Column(name = "buyer_id", columnDefinition = "int(11)")
+    @Column(name="buyer_id", columnDefinition="int(11)")
     private Long buyerId;
 
-    @Column(name = "item_id", columnDefinition = "int(11)")
+    @Column(name="item_id", columnDefinition="int(11)")
     private Long itemId;
 
     protected Bookmark() {}
