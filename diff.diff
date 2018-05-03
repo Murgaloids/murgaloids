@@ -1,0 +1,119 @@
+diff --git a/src/main/java/com/murgaloids/server/bookmark/Bookmark.java b/src/main/java/com/murgaloids/server/bookmark/Bookmark.java
+index 7085558..0f39bf1 100644
+--- a/src/main/java/com/murgaloids/server/bookmark/Bookmark.java
++++ b/src/main/java/com/murgaloids/server/bookmark/Bookmark.java
+@@ -11,17 +11,17 @@ import javax.persistence.Id;
+  * Bookmark is a class representation of a bookmark.
+  */
+ @Entity
+-@Table(name = "bookmark")
++@Table(name="bookmark")
+ public class Bookmark {
+     @Id
+     @GeneratedValue(strategy=GenerationType.AUTO)
+-    @Column(name = "id", columnDefinition = "int(11)")
++    @Column(name="id", columnDefinition="int(11)")
+     private Long id;
+ 
+-    @Column(name = "buyer_id", columnDefinition = "int(11)")
++    @Column(name="buyer_id", columnDefinition="int(11)")
+     private Long buyerId;
+ 
+-    @Column(name = "item_id", columnDefinition = "int(11)")
++    @Column(name="item_id", columnDefinition="int(11)")
+     private Long itemId;
+ 
+     protected Bookmark() {}
+diff --git a/src/main/java/com/murgaloids/server/conversation/Conversation.java b/src/main/java/com/murgaloids/server/conversation/Conversation.java
+index b1f2ba5..e734221 100644
+--- a/src/main/java/com/murgaloids/server/conversation/Conversation.java
++++ b/src/main/java/com/murgaloids/server/conversation/Conversation.java
+@@ -6,7 +6,7 @@ import javax.persistence.Column;
+ import javax.persistence.Id;
+ 
+ @Entity
+-@Table(name = "conversation")
++@Table(name="conversation")
+ public class Conversation {
+   @Id
+   @Column(name="id", columnDefinition="varchar(255)")
+diff --git a/src/main/java/com/murgaloids/server/message/Message.java b/src/main/java/com/murgaloids/server/message/Message.java
+index ad76e1a..9ca22e8 100644
+--- a/src/main/java/com/murgaloids/server/message/Message.java
++++ b/src/main/java/com/murgaloids/server/message/Message.java
+@@ -4,6 +4,7 @@ import javax.persistence.Entity;
+ import javax.persistence.Table;
+ import javax.persistence.Column;
+ import javax.persistence.Id;
++import javax.persistence.PrePersist;
+ import javax.persistence.GeneratedValue;
+ import javax.persistence.GenerationType;
+ import javax.persistence.Temporal;
+@@ -33,6 +34,9 @@ public class Message {
+   @Temporal(TemporalType.TIMESTAMP)
+   private Date messageDate;
+ 
++  @Column(name="is_read", columnDefinition="tinyint(1)")
++  private Boolean isRead;
++
+   protected Message() {}
+ 
+   public Message(Long id, String conversationId, Long senderId, String message, Date messageDate) {
+@@ -82,4 +86,17 @@ public class Message {
+   public void setMessageDate(Date date) {
+     this.messageDate = date;
+   }
++
++  public Boolean getIsRead() {
++    return this.isRead;
++  }
++
++  public void setIsRead(Boolean isRead) {
++    this.isRead = isRead;
++  }
++
++  @PrePersist
++  public void prePersist() {
++    this.messageDate = new Date();
++  }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/com/murgaloids/server/security/WebSecurity.java b/src/main/java/com/murgaloids/server/security/WebSecurity.java
+index 6dd6a5b..2d7b047 100644
+--- a/src/main/java/com/murgaloids/server/security/WebSecurity.java
++++ b/src/main/java/com/murgaloids/server/security/WebSecurity.java
+@@ -2,10 +2,8 @@ package com.murgaloids.server.security;
+ 
+ import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+ import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+-import org.springframework.security.core.userdetails.UserDetailsService;
+ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+ import org.springframework.security.config.http.SessionCreationPolicy;
+-import org.springframework.http.HttpMethod;
+ import org.springframework.context.annotation.Bean;
+ import org.springframework.web.cors.CorsConfiguration;
+ import org.springframework.web.cors.CorsConfigurationSource;
+@@ -18,12 +16,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+  */
+ @EnableWebSecurity
+ public class WebSecurity extends WebSecurityConfigurerAdapter {
+-    private UserDetailsService userDetailsService;
+-
+-    public WebSecurity(UserDetailsService userDetailsService) {
+-        this.userDetailsService = userDetailsService;
+-    }
+-
+     // Defines which resources are public and which are private. Also, configure support
+     // for CORS.
+     @Override
+diff --git a/src/main/java/com/murgaloids/server/student/StudentService.java b/src/main/java/com/murgaloids/server/student/StudentService.java
+index d13635e..549409b 100644
+--- a/src/main/java/com/murgaloids/server/student/StudentService.java
++++ b/src/main/java/com/murgaloids/server/student/StudentService.java
+@@ -1,6 +1,5 @@
+ package com.murgaloids.server.student;
+ 
+-import lombok.NonNull;
+ import org.springframework.stereotype.Service;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.security.core.userdetails.UserDetailsService;
